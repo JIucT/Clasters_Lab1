@@ -4,8 +4,19 @@
 #include <fstream>
 #include <math.h>
 
+float Euclidean(vector<float> from, vector<float> to, int propnum) //Эвклидовое расстояние
+{
+    float sum = 0;
+    for (int i = 0; i < propnum; ++i)
+    {
+        sum += pow(from[i] - to[i] ,2);
+    }
+    return sqrt(sum);
+}
 
-Objects_set::Objects_set(ifstream& file)
+
+
+Claster::Claster(ifstream& file)
 {
     char tmp[15];
     char length[3];
@@ -19,30 +30,61 @@ Objects_set::Objects_set(ifstream& file)
             file >> tmp;
             newobjpropert.push_back(atof(tmp));
         }
-     //   vector<float>* c = &newobjpropert;
         objects.push_back(newobjpropert);
+        newobjpropert.clear();
+    }
+    objects.pop_back();      //конец файла сдвинут на 1-у строку
+    
+    for(int d=0;d<objects.size();++d)
+    {
+        for(int l=0;l<propnum;++l)
+        {
+           cout<<objects[d][l]<<"  ";   
+        }
+        cout<<endl;
+    }    
+}
+
+
+void Forel::standartization()
+{
+    float tmp = 0;
+    vector<float> xj_, Sj;
+    
+//  заполнение вектора среднего значения для каждого свойства всех объектов и заполнение вектора Sj  
+    for (int alongpr = 0; alongpr < propnum; ++alongpr)     //цикл по свойствам
+    {
+        xj_.push_back(0);
+        for (int alongobj = 0; alongobj < objects.size(); ++alongobj)  //цикл по объектам
+        {
+            xj_[xj_.size() - 1] += objects[alongobj][alongpr];  //сумма к-го свойства всех объектов
+        }
+        xj_[xj_.size() - 1] = xj_[xj_.size() - 1] / objects.size();
+
+
+        Sj.push_back(0);
+        for (int alongobj = 0; alongobj < objects.size(); ++alongobj)    //сумма квадратов (xij - xj_)^2 св-ва по всем объектам
+        {
+            tmp += pow( ( objects[alongobj][alongpr] - xj_[xj_.size() - 1] ), 2 );
+        }
+        Sj[Sj.size() - 1] = sqrt( tmp / (objects.size()-1) );
+        tmp = 0;
+    }
+    //изменение значений матрицы
+    for (int i = 0; i < objects.size(); ++i)     //по объектам
+    {
+        for (int k = 0; k < propnum; ++k)        //по свойствам
+        {
+            objects[i][k] = ( (objects[i][k] - xj_[k]) / Sj[k] );
+        }
     }
 }
 
 
-void Objects_set::standartization()
+
+vector< vector<float>* > Forel::clustering(int R) 
 {
-    float xj_ = 0, Sj , tmp;
-    for (int i = 0; i < objects.size(); ++i)     //по всем объектам
-    {
-        for (int k = 0; k < propnum; ++k)        //по всем свойствам
-        {
-            for (int alongobj = 0; alongobj < objects.size(); ++alongobj) 
-            {
-                xj_ += objects[alongobj][k];  //сумма к-го свойства всех объектов
-            }
-            xj_ = xj_ / objects.size();
-            for (int alongobj = 0; alongobj < objects.size(); ++alongobj)
-            {
-                tmp += pow( (objects[alongobj][k]), 2);
-            }
-            Sj = sqrt( (1 / (objects.size()-1)) * tmp );
-            objects[i][k] = ( (objects[i][k] - xj_) / Sj );
-        }
-    }
+    int M;
+    M = rand() % this->objects.size();
+    
 }

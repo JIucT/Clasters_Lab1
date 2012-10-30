@@ -12,33 +12,25 @@ using namespace std;
 
 #ifndef FOREL_H
 #define	FOREL_H
-/*
-class C_Object          //обьект со свойствами
-{
-public:
-    C_Object(vector<float>& propert);
-private:
-    vector< float > properties;                        
-};
-*/
 
 class Claster        //мн-во всех объектов
 {
-protected:
+public:
+    Claster(ifstream& file);      
+    friend float Euclidean(vector<float> from, vector<float> to, int propnum);
+//protected:      uncomment after testing
+    int propnum;        
     vector< vector<float> > objects;
+    float distance(vector<float> M);
 };
 
 
-class Objects_set : Claster
+class Forel : public Claster
 {
-public:
-    Objects_set(ifstream& file);      //fill in C_object vector while !eof
-private:
-    int propnum;
 public:   
-    vector< vector<float>* > clustering(int R);  //  кластеризация
+    Forel(ifstream& file) : Claster(file){}
     void standartization();
-    
+    vector< vector<float>* > clustering(int R);  //  кластеризация    
 };
 
 
