@@ -21,12 +21,12 @@ class Forel;
 class Claster        //set of allobjects
 {
 public:    
-  //  Claster();
     Claster(char* fname);     
-    virtual ~Claster();
+    Claster(){};
     void add(vector<float>& object); //adding object to claster
     friend float Euclidean(vector<float> from, vector<float> to, int propnum);
     void standartization();    
+    vector<float> count_center();  //count center of claster, return number of central object in the vector
 //protected:      
     int propnum;        //object's number of properties
     vector< vector<float> > objects;
@@ -35,22 +35,14 @@ public:
 
 
 
-class Sphere : public Claster
-{
-public:
-    Sphere( vector<float>& center, float R, Forel* claster);//:Claster();
-    ~Sphere(); 
-    vector<float> count_center();  //count center of claster, return number of central object in the vector
-private:    
-    vector<float> center;
-};
-
-class Forel : public Claster
+class Forel 
 {
 public:   
-    Forel(char* fname) : Claster(fname){}
+    Forel(char* fname);
+    ~Forel();
     vector< Claster* > clustering(int R);  
     friend float Euclidean(vector<float> from, vector<float> to, int propnum);
+    Claster* claster;
 };
 
 

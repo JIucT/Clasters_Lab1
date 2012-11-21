@@ -8,24 +8,26 @@
 #include <QtGui/QApplication>
 #include "FOREL.h"
 #include <fstream>
+#include <vector>
 
 
 void test()
 {
-    Forel* b = new Forel("7.txt");    
-    for (int i=0; i<b->objects.size();++i)
+    Forel* b = new Forel("8.txt");    
+     b->claster->standartization();
+    for (int i=0; i<b->claster->objects.size();++i)
     {
-        for (int j=0;j<b->propnum; ++j)
+        for (int j=0;j<b->claster->propnum; ++j)
         {
-            cout<<b->objects[i][j]<<"  ";
+            cout<<b->claster->objects[i][j]<<"  ";
         }
         cout<<endl;
     }
     
     cout<<"after standartization"<<endl<<endl<<endl<<endl<<endl<<endl;
-//    b->standartization();
+   
     vector< Claster* > clasters; 
-    clasters = b->clustering(3);
+    clasters = b->clustering(1.3);
     for (int h=0; h<clasters.size();++h)
     {
         cout<<"Кластер "<<h<<" включает объекты:"<<endl;

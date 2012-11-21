@@ -62,7 +62,6 @@ void Claster::add(vector<float>& object)  //adding object
 Claster::Claster(char* fname)
 {
     char tmp[15];
-    //char length[3];
     propnum = num_of_col(fname);  //number of properties
     ifstream file(fname);
     if(!file)
@@ -83,25 +82,9 @@ Claster::Claster(char* fname)
     }
     objects.pop_back();      //end of file is shifted by one row
     
-    for(int d=0;d<objects.size();++d)
-    {
-        for(int l=0;l<propnum;++l)
-        {
-           cout<<objects[d][l]<<"  ";   
-        }
-        cout<<endl;
-    }    
 }
 
 
-Claster::~Claster()
-{
-    for (int i=0; i<this->objects.size(); ++i)
-    {
-        this->objects[i].clear();
-    }
-   // this->objects.clear();
-}
 
 void Claster::standartization()
 {
@@ -137,50 +120,23 @@ void Claster::standartization()
     }
 }
 
-//Claster::Claster()
-//{
-//}
 
 
 
-                                  //Sphere
-Sphere::Sphere( vector<float>& center, float R, Forel* claster)//:Claster()
-{
-    for(int i=0;i<center.size(); ++i)
-    {
-        this->center.push_back(center[i]);
-    }
-    //this->center = center;  //adding center to sphere
-    this->propnum = claster->propnum;
-   // this->objects = claster->objects;
-    for (int i =0; i<claster->objects.size(); ++i)   //loop by each of claster object
-    {
-        if ( ( Euclidean(this->center, claster->objects[i], this->center.size() ) ) <= R) //if distance from
-        {                                                        //center to object <= radius, then add object to sphere
-            this->add(claster->objects[i]);
-        }
-    }
-}
 
 
-Sphere::~Sphere()
-{
-    //this->~Claster();
-    //this->center.clear();
-}
-
-
-vector<float> Sphere::count_center()     //counting center of gravity of sphere
+vector<float> Claster::count_center()     //counting center of gravity of sphere
 {
     vector<float> newcenter; 
     float sum = 0;
-    for (int k=0; k<propnum; ++k)  //loop by each property
+    for (int k=0; k<this->propnum; ++k)  //loop by each property
     {
-        for (int i=0; i<objects.size(); ++i)//loop by rows
+        sum = 0;
+        for (int i=0; i<this->objects.size(); ++i)//loop by rows
         {
             sum += objects[i][k];         //summing properties
         }
-        newcenter.push_back(sum/objects.size());  //mean value of property
+        newcenter.push_back(sum/objects.size());  //mean value of property        
     }
     return newcenter;
 }
@@ -190,69 +146,80 @@ vector<float> Sphere::count_center()     //counting center of gravity of sphere
                                   //Forel
 
 
+Forel::Forel(char* fname)
+{
+    this->claster = new Claster(fname);
+}
 
+Forel::~Forel()
+{
+    delete(this->claster);
+}
 
 vector< Claster* > Forel::clustering(int R) 
 {
-    int M;
-    vector< Claster*> after_clustering;  //vector of clustering that is got after clustering
-    int proper_array_size = this->objects[0].size();
-    vector<float> center_prew; 
+    int M = rand() % this->claster->objects.size();
+    vector< Claster* > after_clustering;  //vector of clustering that will be got after clustering
+    Claster* new_claster = NULL, *ptr = NULL;
+    vector<float> center_prew;
     vector<float> center_new;
-    bool is_same = false;
-    vector<vector<float> >::iterator del_vec;     
+    vector<vector<float> >::iterator del_vec;
     float abs_val = 0;
-    Sphere* sphere = NULL;
-    while (!this->objects.empty())
+    bool is_same;
+    while (!this->claster->objects.empty())
     {
-        M = rand() % this->objects.size();      //center of new sphere
-        abs_val = 0;
-            if (sphere != NULL)
-            {
-                delete(sphere);
-               // sphere = NULL;
-            }
-        for(int i = 0; i<this->objects[M].size(); ++i)  //filling in center
-        {
-            center_prew.push_back(this->objects[M][i]);
-        }
+        center_prew = this->claster->objects[M];
         do
         {
-            if (sphere != NULL)
+            if(new_claster != NULL)
             {
-                delete(sphere);
-               // sphere = NULL;
+                delete(new_claster);
+                new_claster = NULL;
             }
-            sphere = new Sphere::Sphere(sphere, center_prew, R, this);
-            center_new = sphere->count_center();            //counting center of made sphere          //center counting error!!!!!!
-            for (int g = 0; g<proper_array_size; ++g)
+            new_claster = new Claster();          //new sphere
+            new_claster->propnum = this->claster->propnum;
+            for(int i=0;i<this->claster->objects.size(); ++i)      //forming a sphere(new claster)
             {
-                 abs_val += fabs(center_new[g] - center_prew[g]);
+                if ( Euclidean(center_prew, this->claster->objects[i], center_prew.size() ) <= R)  //if distance from center
+                {                                         //of a shphere to curent object <= R than add object to new sphere
+                    new_claster->add(this->claster->objects[i]);
+                }
+            }
+            center_new = new_claster->count_center();   //counting new center of a shpere
+            abs_val = 0;
+            for (int i=0;i<center_prew.size();++i)
+            {
+                abs_val += fabs(center_new[i] - center_prew[i]);  //the difference between new and previous centers
             }
             center_prew = center_new;
-            center_new.clear();
-        }while (abs_val > 0.01);           
-        after_clustering.push_back(sphere);
-       //deleting sphere from the input claster;
-       for (int i=0; i<sphere->objects.size(); ++i) //by sphere objects
-       {
-            del_vec = this->objects.begin();   //iterator by this->objects;
-            is_same = true;
-            for (int j=0;j<this->objects.size(); ++j)  //by claster objects
+        }while(abs_val > 0.05);
+        ptr = new Claster();
+        *ptr = *new_claster;
+        after_clustering.push_back(ptr);       //saving new claster
+                              //deleting ready claster from input claster
+        for (int k=0; k<new_claster->objects.size(); ++k) //by number of objects
+        {
+            del_vec = this->claster->objects.begin();            
+            for (int i=0; i<this->claster->objects.size(); ++i) //by number of objects
             {
-                for(int u=0;u<this->objects[j].size(); ++u)   //sphere->object[i] =? this->object[i]
+                is_same = true;
+                for (int j=0;j<this->claster->objects[i].size();++j)  //by number of properties
                 {
-                    if (sphere->objects[i][u] != this->objects[j][u])
+                    if (this->claster->objects[i][j] != new_claster->objects[k][j])
                     {
                         is_same = false;
-                    }
+                    }                    
                 }
-                if (is_same)  //if sphere->object = this->object
+                if (is_same == true)
                 {
-                    this->objects.erase(del_vec);                    
+                    this->claster->objects.erase(del_vec);
                     break;
                 }
+                ++del_vec;                
             }
-        }
+        }        //end deleting
+        if (!this->claster->objects.empty())
+            M = rand() % this->claster->objects.size();   //new center of new claster(sphere)
     }
+    return after_clustering;
 }
