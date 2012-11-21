@@ -13,24 +13,44 @@ using namespace std;
 #ifndef FOREL_H
 #define	FOREL_H
 
-class Claster        //мн-во всех объектов
+int num_of_col(char* fname);        //number of columns in file
+class Forel;
+
+
+
+class Claster        //set of allobjects
 {
-public:
-    Claster(ifstream& file);      
+public:    
+  //  Claster();
+    Claster(char* fname);     
+    virtual ~Claster();
+    void add(vector<float>& object); //adding object to claster
     friend float Euclidean(vector<float> from, vector<float> to, int propnum);
-//protected:      uncomment after testing
-    int propnum;        
+    void standartization();    
+//protected:      
+    int propnum;        //object's number of properties
     vector< vector<float> > objects;
-    float distance(vector<float> M);
 };
 
+
+
+
+class Sphere : public Claster
+{
+public:
+    Sphere( vector<float>& center, float R, Forel* claster);//:Claster();
+    ~Sphere(); 
+    vector<float> count_center();  //count center of claster, return number of central object in the vector
+private:    
+    vector<float> center;
+};
 
 class Forel : public Claster
 {
 public:   
-    Forel(ifstream& file) : Claster(file){}
-    void standartization();
-    vector< vector<float>* > clustering(int R);  //  кластеризация    
+    Forel(char* fname) : Claster(fname){}
+    vector< Claster* > clustering(int R);  
+    friend float Euclidean(vector<float> from, vector<float> to, int propnum);
 };
 
 
