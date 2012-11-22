@@ -13,7 +13,9 @@ using namespace std;
 #ifndef FOREL_H
 #define	FOREL_H
 
+
 int num_of_col(char* fname);        //number of columns in file
+float Euclidean(vector<float> from, vector<float> to, int propnum); //euclidean distance
 class Forel;
 
 
@@ -27,6 +29,7 @@ public:
     friend float Euclidean(vector<float> from, vector<float> to, int propnum);
     void standartization();    
     vector<float> count_center();  //count center of claster, return number of central object in the vector
+    void show();
 //protected:      
     int propnum;        //object's number of properties
     vector< vector<float> > objects;
@@ -35,13 +38,15 @@ public:
 
 
 
-class Forel 
+class Forel
 {
 public:   
     Forel(char* fname);
+    Forel();
     ~Forel();
-    vector< Claster* > clustering(int R);  
+    virtual vector< Claster* > clustering(int R);  
     friend float Euclidean(vector<float> from, vector<float> to, int propnum);
+    void show();
     Claster* claster;
 };
 

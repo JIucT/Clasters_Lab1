@@ -7,38 +7,24 @@
 
 #include <QtGui/QApplication>
 #include "FOREL.h"
+#include "FOREL2.h"
 #include <fstream>
 #include <vector>
 
 
 void test()
 {
-    Forel* b = new Forel("8.txt");    
+    Forel2* b = new Forel2("8.txt");    
      b->claster->standartization();
-    for (int i=0; i<b->claster->objects.size();++i)
-    {
-        for (int j=0;j<b->claster->propnum; ++j)
-        {
-            cout<<b->claster->objects[i][j]<<"  ";
-        }
-        cout<<endl;
-    }
-    
-    cout<<"after standartization"<<endl<<endl<<endl<<endl<<endl<<endl;
+     b->show();
+ //   cout<<"after standartization"<<endl<<endl<<endl<<endl<<endl<<endl;
    
     vector< Claster* > clasters; 
-    clasters = b->clustering(1.3);
+    clasters = b->Forel2::clustering(3, 0.1);
     for (int h=0; h<clasters.size();++h)
     {
         cout<<"Кластер "<<h<<" включает объекты:"<<endl;
-        for (int i=0; i<clasters[h]->objects.size();++i)
-        {
-            for (int j=0;j<clasters[h]->objects[i].size(); ++j)
-            {
-                cout<<clasters[h]->objects[i][j]<<"  ";
-            }
-            cout<<endl;
-        }
+        clasters[h]->show();
     }  
     
     

@@ -143,7 +143,24 @@ vector<float> Claster::count_center()     //counting center of gravity of sphere
 
 
 
+void Claster::show()
+{
+    for (int i=0; i<this->objects.size();++i)
+    {
+        for (int j=0;j<this->propnum; ++j)
+        {
+            cout<<this->objects[i][j]<<"  ";
+        }
+        cout<<endl;
+    }    
+}
+
                                   //Forel
+
+Forel::Forel()
+{
+    this->claster = new Claster();
+}
 
 
 Forel::Forel(char* fname)
@@ -222,4 +239,10 @@ vector< Claster* > Forel::clustering(int R)
             M = rand() % this->claster->objects.size();   //new center of new claster(sphere)
     }
     return after_clustering;
+}
+
+
+void Forel::show()
+{
+    this->claster->show();
 }
