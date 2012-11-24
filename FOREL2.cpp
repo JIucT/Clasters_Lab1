@@ -6,20 +6,42 @@
 
 Forel2::Forel2(char* fname) : Forel(fname)
 {
+    this->set_distances_matrix();
+}
+
+void Forel2::standartization()
+{
+    this->claster->Claster::standartization();
+    this->set_distances_matrix();    
+}
+
+void Forel2::set_distances_matrix()
+{
     //counting distance between each pair of objects
     vector<float> tmp;
+    this->distance_matrix.clear();
     for (int i=0;i<this->claster->objects.size();++i)
     {
         for (int j=0; j<this->claster->objects.size();++j )
         {
             tmp.push_back(Euclidean(this->claster->objects[i], this->claster->objects[j], 
-                                                                                         this->claster->propnum) );
+                                                                    this->claster->propnum) );
         }
         this->distance_matrix.push_back(tmp);
         tmp.clear();
-    }
+    }    
 }
 
+//return cluster, whose vetor objects includes distances matrix
+Claster* Forel2::get_distances_matrix()
+{
+    this->distance_matrix.clear();
+    this->set_distances_matrix();
+    Claster* tmp = new Claster();
+    tmp->propnum = this->distance_matrix[0].size();
+    tmp->objects = this->distance_matrix;
+    return tmp;
+}
 
 float Q2(vector< Claster* > claster)
 {
@@ -41,9 +63,18 @@ float Q2(vector< Claster* > claster)
 
 vector< Claster* > Forel2::clustering(int clast_num, float E)
 {
+    if ( (clast_num <= 0) || (E <= 0) )
+    {        
+        Claster* err = new Claster();
+        err->propnum = 0;        
+        vector< Claster* > err_vector;
+        err_vector.push_back(err);
+        return err_vector;
+    }
     float max_dist=0, tmp = 0, R = 0, dR = 0;
     int index = 1;
     Forel* copy_of_claster = new Forel();
+  //  this->set_distances_matrix();
     for (int i=0; i<this->distance_matrix.size();++i)       //counting radius for the 1st iteration
     {
         tmp = *max_element(this->distance_matrix[i].begin(), this->distance_matrix[i].end());
@@ -58,6 +89,8 @@ vector< Claster* > Forel2::clustering(int clast_num, float E)
         if ( clast_num >= this->forel_result.size() )   //getting new radius
         {
             R = R - dR;
+            if (R < 0)
+                R = 0;
         }
         else
         {
@@ -82,6 +115,7 @@ vector< Claster* > Forel2::clustering(int clast_num, float E)
         ++index;  //transfer to next iteration
     }while (dR>=E);
     index = 0;
+    if (!result_set.empty())
     tmp = Q2(result_set[0]);
     R = 0;
     for (int i=0; i<result_set.size();++i)
@@ -93,7 +127,16 @@ vector< Claster* > Forel2::clustering(int clast_num, float E)
             index = i;
         }
     }
-    return result_set[index];
+    if (result_set.empty() == false)
+        return result_set[index];
+    else
+    {
+        Claster* err = new Claster();
+        err->propnum = 0;
+        vector<Claster*> T;        
+        T.push_back(err);
+        return T;
+    }
 }
 
 

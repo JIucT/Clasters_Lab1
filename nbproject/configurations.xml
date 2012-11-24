@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>FOREL.h</itemPath>
       <itemPath>FOREL2.h</itemPath>
+      <itemPath>mainwindow.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -17,6 +18,7 @@
       <itemPath>FOREL.cpp</itemPath>
       <itemPath>FOREL2.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>mainwindow.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -29,6 +31,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>mainwindow.ui</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -41,6 +44,11 @@
         <modules>core gui</modules>
       </qt>
       <compileType>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibFileItem>/usr/lib/libqwt.so</linkerLibFileItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
     </conf>
     <conf name="Release" type="4">

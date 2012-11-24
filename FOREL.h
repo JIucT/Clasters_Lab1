@@ -24,13 +24,12 @@ class Claster        //set of allobjects
 {
 public:    
     Claster(char* fname);     
-    Claster(){};
+    Claster(){this->propnum = 0;};
     void add(vector<float>& object); //adding object to claster
     friend float Euclidean(vector<float> from, vector<float> to, int propnum);
     void standartization();    
     vector<float> count_center();  //count center of claster, return number of central object in the vector
     void show();
-//protected:      
     int propnum;        //object's number of properties
     vector< vector<float> > objects;
 };

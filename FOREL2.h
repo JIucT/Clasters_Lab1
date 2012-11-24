@@ -20,9 +20,12 @@ class Forel2 : public Forel
 public:
     Forel2(char* fname);
     vector< Claster* > clustering(int clast_num, float E);
+    Claster* get_distances_matrix();
+    void standartization();
 private:
+    void set_distances_matrix();
     vector< vector< Claster* > > result_set;    
-    vector < vector<float> > distance_matrix;           //distences between objects
+    vector< vector<float> > distance_matrix;           //distences between objects
     vector< Claster* > forel_result;    
 };
 

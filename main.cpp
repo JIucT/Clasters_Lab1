@@ -10,6 +10,7 @@
 #include "FOREL2.h"
 #include <fstream>
 #include <vector>
+#include "mainwindow.h"
 
 
 void test()
@@ -35,11 +36,14 @@ int main(int argc, char *argv[]) {
     // initialize resources, if needed
     // Q_INIT_RESOURCE(resfile);
     
-    test();
+    //test();
    // cout<<num_of_col("/home/phoenix/Study_&_books/Clasters/PatRec/data/lab1,2 (clustering)/11.txt");
     
+    
     QApplication app(argc, argv);
+    
+    MainWindow* mainwindow = new MainWindow();
+    mainwindow->show();
     // create and show your widgets here
-//    return app.exec();
-    return 0;
+    return app.exec();
 }
