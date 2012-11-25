@@ -43,7 +43,7 @@ public:
     Forel(char* fname);
     Forel();
     ~Forel();
-    virtual vector< Claster* > clustering(int R);  
+    virtual vector< Claster* > clustering(float R);  
     friend float Euclidean(vector<float> from, vector<float> to, int propnum);
     void show();
     Claster* claster;

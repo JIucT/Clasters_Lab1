@@ -60,6 +60,21 @@ float Q2(vector< Claster* > claster)
 }
 
 
+float P(vector< Claster* > claster)
+{
+    vector< float > center;
+    float sum;
+    for (int c=0; c<claster.size(); ++c) //by clasters
+    {
+        center=claster[c]->count_center();
+        for (int i = 0; i<claster[c]->objects.size(); ++i)  //by objects
+        {
+            sum += Euclidean(center, claster[c]->objects[i], claster[c]->propnum);
+        }
+    }
+    return sum;
+}
+
 
 vector< Claster* > Forel2::clustering(int clast_num, float E)
 {
@@ -83,7 +98,7 @@ vector< Claster* > Forel2::clustering(int clast_num, float E)
             max_dist = tmp;
         }
     }
-    R = max_dist;
+    R = dR = max_dist;
     do
     {
         if ( clast_num >= this->forel_result.size() )   //getting new radius
@@ -96,37 +111,38 @@ vector< Claster* > Forel2::clustering(int clast_num, float E)
         {
             R = R + dR;
         }
-        this->forel_result.clear();
+        forel_result.clear();
         *copy_of_claster->claster = *this->claster;     //copying of input data
         this->forel_result = copy_of_claster->Forel::clustering(R);        
         if (clast_num == this->forel_result.size())     //if number of clasters is ok than add this fragmentation	                                                 
         {                                               //to results set
             this->result_set.push_back(this->forel_result);
         }
-        else
-        {
-            for (int i=0; i<this->forel_result.size(); ++i)
-            {
-                delete(forel_result[i]);
-            }
-
-        }
-        dR = max_dist/( pow(2, (index - 1) ) );        
+       // dR = max_dist/( pow(2, (index - 1) ) );        
+        dR *= 0.9;
         ++index;  //transfer to next iteration
     }while (dR>=E);
     index = 0;
     if (!result_set.empty())
-    tmp = Q2(result_set[0]);
+   // tmp = Q2(result_set[0]);
+        tmp = P(result_set[0]);
     R = 0;
     for (int i=0; i<result_set.size();++i)
     {
-        R = Q2(result_set[i]);
-        if ( tmp < R )
+        //R = Q2(result_set[i]);
+        R = P(result_set[i]);
+        if ( tmp > R )
         {
             tmp = R;
             index = i;
         }
     }
+    
+    
+    //example   6
+    //index = 8;
+    
+    
     if (result_set.empty() == false)
         return result_set[index];
     else

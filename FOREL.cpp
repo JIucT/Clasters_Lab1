@@ -4,6 +4,7 @@
 #include <string.h>
 #include <fstream>
 #include <math.h>
+#include "time.h"
 
 int num_of_col(char* fname)
 {
@@ -173,7 +174,7 @@ Forel::~Forel()
     delete(this->claster);
 }
 
-vector< Claster* > Forel::clustering(int R) 
+vector< Claster* > Forel::clustering(float R) 
 {
     int M = rand() % this->claster->objects.size();
     vector< Claster* > after_clustering;  //vector of clustering that will be got after clustering
@@ -181,11 +182,24 @@ vector< Claster* > Forel::clustering(int R)
     vector<float> center_prew;
     vector<float> center_new;
     vector<vector<float> >::iterator del_vec;
-    float abs_val = 0;
+    int abs_val = 0;
     bool is_same;
     while (!this->claster->objects.empty())
     {
-        center_prew = this->claster->objects[M];
+   /*     if (R == 0)
+        {
+            for (int i=this->claster->objects.size()-1;i>=0; --i)
+            {
+                new_claster = new Claster();
+                new_claster->add(this->claster->objects[i]);
+                after_clustering.push_back(new_claster);
+                del_vec = this->claster->objects.end();
+                this->claster->objects.erase(del_vec);
+            }
+            return after_clustering;
+        }
+     */   center_prew = this->claster->objects[M];
+  //      center_prew = this->claster->count_center();
         do
         {
             if(new_claster != NULL)
@@ -206,10 +220,11 @@ vector< Claster* > Forel::clustering(int R)
             abs_val = 0;
             for (int i=0;i<center_prew.size();++i)
             {
-                abs_val += fabs(center_new[i] - center_prew[i]);  //the difference between new and previous centers
+                abs_val += (int)fabs(center_new[i] - center_prew[i]);  //the difference between new and previous centers
             }
             center_prew = center_new;
-        }while(abs_val > 0.05);
+    //    }while(abs_val > 0.005);
+        }while(abs_val!=0);
         ptr = new Claster();
         *ptr = *new_claster;
         after_clustering.push_back(ptr);       //saving new claster

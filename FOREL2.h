@@ -14,6 +14,7 @@ using namespace std;
 #define	FOREL2_H
 
 float Q2(vector< Claster* > claster);
+float P(vector< Claster* > claster);
 
 class Forel2 : public Forel
 {

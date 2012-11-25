@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat Nov 24 17:30:14 2012
+** Created: Sun Nov 25 13:32:57 2012
 **      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,18 +15,21 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QCheckBox>
+#include <QtGui/QGroupBox>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLCDNumber>
 #include <QtGui/QLabel>
 #include <QtGui/QMainWindow>
 #include <QtGui/QPushButton>
+#include <QtGui/QRadioButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QSpinBox>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
+#include "qwt/qwt_plot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -60,12 +63,19 @@ public:
     QTableWidget *afterclusterizatintableWidget;
     QLabel *label_5;
     QWidget *charttab;
+    QwtPlot *qwtPlot;
+    QGroupBox *groupBox;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout_3;
+    QRadioButton *abradioButton;
+    QRadioButton *bcradioButton;
+    QRadioButton *acradioButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(889, 590);
+        MainWindow->resize(889, 588);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -111,7 +121,7 @@ public:
         starttableWidget->setCornerButtonEnabled(false);
         starttableWidget->setRowCount(0);
         starttableWidget->setColumnCount(0);
-        starttableWidget->horizontalHeader()->setVisible(true);
+        starttableWidget->horizontalHeader()->setVisible(false);
         starttableWidget->horizontalHeader()->setDefaultSectionSize(100);
         starttableWidget->horizontalHeader()->setHighlightSections(true);
         starttableWidget->horizontalHeader()->setMinimumSectionSize(27);
@@ -237,6 +247,37 @@ public:
         maintabWidget->addTab(tablestab, QString());
         charttab = new QWidget();
         charttab->setObjectName(QString::fromUtf8("charttab"));
+        qwtPlot = new QwtPlot(charttab);
+        qwtPlot->setObjectName(QString::fromUtf8("qwtPlot"));
+        qwtPlot->setGeometry(QRect(0, 0, 861, 511));
+        qwtPlot->setFrameShape(QFrame::StyledPanel);
+        groupBox = new QGroupBox(charttab);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        groupBox->setGeometry(QRect(150, 489, 471, 61));
+        groupBox->setFlat(false);
+        groupBox->setCheckable(false);
+        horizontalLayoutWidget = new QWidget(groupBox);
+        horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
+        horizontalLayoutWidget->setGeometry(QRect(10, 20, 377, 51));
+        horizontalLayout_3 = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
+        abradioButton = new QRadioButton(horizontalLayoutWidget);
+        abradioButton->setObjectName(QString::fromUtf8("abradioButton"));
+        abradioButton->setChecked(true);
+
+        horizontalLayout_3->addWidget(abradioButton);
+
+        bcradioButton = new QRadioButton(horizontalLayoutWidget);
+        bcradioButton->setObjectName(QString::fromUtf8("bcradioButton"));
+
+        horizontalLayout_3->addWidget(bcradioButton);
+
+        acradioButton = new QRadioButton(horizontalLayoutWidget);
+        acradioButton->setObjectName(QString::fromUtf8("acradioButton"));
+
+        horizontalLayout_3->addWidget(acradioButton);
+
         maintabWidget->addTab(charttab, QString());
         MainWindow->setCentralWidget(centralwidget);
 
@@ -267,6 +308,10 @@ public:
         label_5->setText(QApplication::translate("MainWindow", "Data after clusterization:", 0, QApplication::UnicodeUTF8));
         clusteredtablestabWidget->setTabText(clusteredtablestabWidget->indexOf(clusteredtab), QApplication::translate("MainWindow", "Clustered data", 0, QApplication::UnicodeUTF8));
         maintabWidget->setTabText(maintabWidget->indexOf(tablestab), QApplication::translate("MainWindow", "Tables", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QString());
+        abradioButton->setText(QApplication::translate("MainWindow", "Properties 1x2", 0, QApplication::UnicodeUTF8));
+        bcradioButton->setText(QApplication::translate("MainWindow", "Properties 2x3", 0, QApplication::UnicodeUTF8));
+        acradioButton->setText(QApplication::translate("MainWindow", "Properties 1x3", 0, QApplication::UnicodeUTF8));
         maintabWidget->setTabText(maintabWidget->indexOf(charttab), QApplication::translate("MainWindow", "Chart", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
