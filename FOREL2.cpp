@@ -119,32 +119,29 @@ vector< Claster* > Forel2::clustering(int clast_num, float E)
             this->result_set.push_back(this->forel_result);
         }
        // dR = max_dist/( pow(2, (index - 1) ) );        
-        dR *= 0.9;
+        dR *= 0.95;
         ++index;  //transfer to next iteration
-    }while (dR>=E);
-    index = 0;
+    }while (dR >= E);
     if (!result_set.empty())
-   // tmp = Q2(result_set[0]);
-        tmp = P(result_set[0]);
-    R = 0;
-    for (int i=0; i<result_set.size();++i)
     {
-        //R = Q2(result_set[i]);
-        R = P(result_set[i]);
-        if ( tmp > R )
+        tmp = Q2(result_set[0]);
+       // tmp = P(result_set[0]);
+        index = 0;        
+        R = 0;
+        for (int i=1; i<result_set.size();++i)
         {
-            tmp = R;
-            index = i;
+            R = Q2(result_set[i]);
+         //   cout<<R<<"               "<<i<<endl;
+           // R = P(result_set[i]);
+            if ( tmp > R )
+            {                
+                tmp = R;
+                index = i;
+            }
         }
-    }
-    
-    
-    //example   6
-    //index = 8;
-    
-    
-    if (result_set.empty() == false)
+      //  cout<<index;
         return result_set[index];
+    }
     else
     {
         Claster* err = new Claster();

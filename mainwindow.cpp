@@ -127,9 +127,9 @@ void MainWindow::fill_in_table(QTableWidget* table, Claster* mean_cluster, QStri
 void MainWindow::clustering()
 {
     //clustering data
-    this->clustered_data = this->cluster->Forel2::clustering(this->clustersnumspinBox->text().QString::toInt(), 0.000001);
+    this->clustered_data = this->cluster->Forel2::clustering(this->clustersnumspinBox->text().QString::toInt(), 0.00001);
     this->clustered_standart_data = this->standardized_cluster->
-                                     Forel2::clustering(this->clustersnumspinBox->text().QString::toInt(), 0.000001);    
+                                     Forel2::clustering(this->clustersnumspinBox->text().QString::toInt(), 0.001);    
     if (this->cluster != NULL)
     {
         delete(this->cluster);

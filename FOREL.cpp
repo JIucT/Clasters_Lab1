@@ -186,20 +186,7 @@ vector< Claster* > Forel::clustering(float R)
     bool is_same;
     while (!this->claster->objects.empty())
     {
-   /*     if (R == 0)
-        {
-            for (int i=this->claster->objects.size()-1;i>=0; --i)
-            {
-                new_claster = new Claster();
-                new_claster->add(this->claster->objects[i]);
-                after_clustering.push_back(new_claster);
-                del_vec = this->claster->objects.end();
-                this->claster->objects.erase(del_vec);
-            }
-            return after_clustering;
-        }
-     */   center_prew = this->claster->objects[M];
-  //      center_prew = this->claster->count_center();
+        center_prew = this->claster->objects[M];
         do
         {
             if(new_claster != NULL)
@@ -218,9 +205,9 @@ vector< Claster* > Forel::clustering(float R)
             }
             center_new = new_claster->count_center();   //counting new center of a shpere
             abs_val = 0;
-            for (int i=0;i<center_prew.size();++i)
+            for (int i=0;i<this->claster->propnum;++i)
             {
-                abs_val += (int)fabs(center_new[i] - center_prew[i]);  //the difference between new and previous centers
+                abs_val += fabs(center_new[i] - center_prew[i]);  //the difference between new and previous centers
             }
             center_prew = center_new;
     //    }while(abs_val > 0.005);
