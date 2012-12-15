@@ -198,9 +198,16 @@ void MainWindow::show_mean_values()
     this->meanvaluetableWidget->setColumnCount((*mean_vector)[0]->propnum);
     this->meanvaluetableWidget->setRowCount((*mean_vector).size());
 
-    this->Q2lcdNumber->setSegmentStyle(QLCDNumber::Flat);
     if ( (*mean_vector)[0]->propnum != 0) 
-         this->Q2lcdNumber->display(Q2(*mean_vector));
+    {
+        this->Q2tableWidget->setColumnCount(1);
+        this->Q2tableWidget->setRowCount(this->Q2tableWidget->rowCount()+1);
+        newItem = new QTableWidgetItem(QTableWidgetItem::Type);
+        newItem->setTextAlignment(Qt::AlignHCenter);         
+        newItem->setText(QString::number(Q2(*mean_vector)));
+        this->Q2tableWidget->setColumnWidth(0, this->Q2tableWidget->width());
+        this->Q2tableWidget->setItem(this->Q2tableWidget->rowCount()-1, 0, newItem);
+    }
     
     
     vector< float > mean_values_cluster_vector;

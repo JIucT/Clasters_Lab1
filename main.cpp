@@ -12,40 +12,40 @@
 #include <vector>
 #include <iomanip>
 #include "mainwindow.h"
+#include "Gustafson-Kessel.h"
 
 void test()
 {
-    Forel2* f = new Forel2("/home/phoenix/Study_&_books/Clasters/PatRec/data/lab1,2(clustering)/4.txt");
-    f->Forel2::standartization();
-    vector<Claster*> a = f->Forel2::clustering(3, 0.000001);
-    for(int i =0; i<a.size(); ++i)
+    GK* f = new GK("/home/phoenix/Study_&_books/Clasters/PatRec/data/lab1,2(clustering)/8");
+ /*   f->set_memberships_byrandom(5, 500);
+    for (int i=0; i<f->membership_matrix.size(); ++i)
     {
-        for(int j=0;j<a[i]->objects.size();++j)
+        for (int j=0; j<f->membership_matrix[i].size(); ++j)
         {
-            for (int k=0;k<a[i]->objects[j].size();++k)
-            {
-                if(a[i]->propnum == 0)
-                {
-                    cout<<"errrrrrrrrrrrrorrrrrrrr";
-                }
-                cout<<setw(8)<<a[i]->objects[j][k]<<"  ";
-            }
-            cout<<endl;
+            cout<<f->membership_matrix[i][j]<<"  ";
         }
-        cout<<endl<<endl<<endl;
+        cout<<endl;
+    }*/
+    vector<Claster*> cl;
+    f->standartization();
+    cl = f->clustering(3, 0.0001, 2);
+    for (int i=0; i<cl.size(); ++i)
+    {
+        cl[i]->show();
+        cout<<endl;
     }
 }
  
-   
+  
 
 
 int main(int argc, char *argv[]) {
     // initialize resources, if needed
     // Q_INIT_RESOURCE(resfile);
     
-    //test();
    // cout<<num_of_col("/home/phoenix/Study_&_books/Clasters/PatRec/data/lab1,2 (clustering)/11.txt");
     srand(static_cast<unsigned>(time(NULL)));
+    test();
 
     
     QApplication app(argc, argv);
@@ -53,6 +53,6 @@ int main(int argc, char *argv[]) {
     MainWindow* mainwindow = new MainWindow();
     mainwindow->show();
     // create and show your widgets here
-    return app.exec();
-   // return 0;
+//    return app.exec();
+    return 0;
 }
