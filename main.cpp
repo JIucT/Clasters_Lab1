@@ -6,17 +6,17 @@
  */
 
 #include <QtGui/QApplication>
-#include "FOREL.h"
-#include "FOREL2.h"
+//#include "FOREL.h"
+//#include "FOREL2.h"
 #include <fstream>
 #include <vector>
 #include <iomanip>
+//#include "Gustafson-Kessel.h"
 #include "mainwindow.h"
-#include "Gustafson-Kessel.h"
 
 void test()
 {
-    GK* f = new GK("/home/phoenix/Study_&_books/Clasters/PatRec/data/lab1,2(clustering)/8");
+    Gkk* f = new Gkk("/home/phoenix/Study_&_books/Clasters/PatRec/data/lab1,2(clustering)/8");
  /*   f->set_memberships_byrandom(5, 500);
     for (int i=0; i<f->membership_matrix.size(); ++i)
     {
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     
    // cout<<num_of_col("/home/phoenix/Study_&_books/Clasters/PatRec/data/lab1,2 (clustering)/11.txt");
     srand(static_cast<unsigned>(time(NULL)));
-    test();
+  //  test();
 
     
     QApplication app(argc, argv);
@@ -53,6 +53,6 @@ int main(int argc, char *argv[]) {
     MainWindow* mainwindow = new MainWindow();
     mainwindow->show();
     // create and show your widgets here
-//    return app.exec();
-    return 0;
+    return app.exec();
+//    return 0;
 }

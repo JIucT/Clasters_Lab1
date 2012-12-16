@@ -5,6 +5,7 @@
  * Created on November 22, 2012, 2:33 PM
  */
 #include "FOREL.h"
+//#include "GK.h"
 
 
 using namespace std;
@@ -23,6 +24,8 @@ public:
     vector< Claster* > clustering(int clast_num, float E);
     Claster* get_distances_matrix();
     void standartization();
+//    GK* cluster;
+ //   GK* standardized_cluster;    
 private:
     void set_distances_matrix();
     vector< vector< Claster* > > result_set;    

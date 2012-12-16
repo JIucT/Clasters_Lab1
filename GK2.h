@@ -5,14 +5,13 @@
  * Created on December 8, 2012, 11:09 AM
  */
 
-#include "FOREL.h"
-#include <stdlib.h>
-#include <algorithm>
-#include "math.h"
+#include "FOREL2.h"
 
 
-#ifndef GUSTAFSON_KESSEL_H
-#define	GUSTAFSON_KESSEL_H
+using namespace std;
+
+#ifndef GK_H
+#define	GK_H
 
 
 float vectorsum(vector<float> vec);

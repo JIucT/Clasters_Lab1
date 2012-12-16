@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>910</width>
+    <width>903</width>
     <height>655</height>
    </rect>
   </property>
@@ -39,7 +39,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="foreltab">
      <attribute name="title">
@@ -593,7 +593,7 @@
          <enum>QTabWidget::West</enum>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="inputdatatab_2">
          <attribute name="title">
@@ -605,7 +605,7 @@
             <x>490</x>
             <y>40</y>
             <width>331</width>
-            <height>511</height>
+            <height>471</height>
            </rect>
           </property>
           <property name="verticalScrollBarPolicy">
@@ -722,6 +722,42 @@
           <property name="text">
            <string>Matrix of distances:</string>
           </property>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>490</x>
+            <y>520</y>
+            <width>331</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Quality functional(Q2)=</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="Q2tableWidget_2">
+             <property name="rowCount">
+              <number>0</number>
+             </property>
+             <property name="columnCount">
+              <number>1</number>
+             </property>
+             <attribute name="horizontalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <attribute name="verticalHeaderVisible">
+              <bool>false</bool>
+             </attribute>
+             <column/>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
         <widget class="QWidget" name="clusteredtab_2">
@@ -880,7 +916,7 @@
          <widget class="QLabel" name="label_16">
           <property name="geometry">
            <rect>
-            <x>630</x>
+            <x>510</x>
             <y>10</y>
             <width>59</width>
             <height>15</height>
@@ -893,10 +929,10 @@
          <widget class="QTableWidget" name="tableWidget_2">
           <property name="geometry">
            <rect>
-            <x>630</x>
+            <x>510</x>
             <y>30</y>
-            <width>81</width>
-            <height>471</height>
+            <width>311</width>
+            <height>381</height>
            </rect>
           </property>
          </widget>
@@ -928,6 +964,9 @@
           <width>50</width>
           <height>23</height>
          </rect>
+        </property>
+        <property name="value">
+         <number>1</number>
         </property>
        </widget>
        <widget class="QSpinBox" name="xaxisspinBox">

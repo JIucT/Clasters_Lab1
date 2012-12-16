@@ -1,4 +1,7 @@
-#include "Gustafson-Kessel.h"
+#include "GK2.h"
+#include <stdlib.h>
+#include <algorithm>
+#include "math.h"
 
 void GK::set_distances_matrix()
 {
